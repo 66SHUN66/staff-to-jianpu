@@ -11,7 +11,7 @@
 - **PDF 输入**：支持直接把多页 PDF 乐谱拆页识别，无需先手动转图（`lilipu/core/pdfinput.py`）。
 - **MusicXML 导出**：识别结果可一键导出 `.musicxml` / `.xml` / `.mxl`，便于导入 MuseScore、Sibelius 等制谱软件。
 - **测试**：11 个 pytest 用例覆盖转换、渲染、字体、路径、PDF 拆页。
-- **CI**：GitHub Actions 在 Linux 上跑 Python 3.10 / 3.11 / 3.12 矩阵测试；修改 CHANGELOG 或打 tag 时自动构建 Windows exe 并上传 Release。
+- **CI**：GitHub Actions 在 Linux 上跑 Python 3.10 / 3.11 / 3.12 矩阵测试；修改 CHANGELOG 或打包配置时自动构建 Windows exe 并上传 Release。
 - **文档**：README 包含能力边界表、目录结构、打包体积说明；`docs/index.html` 为项目介绍页。
 - 示例图片、图标改为代码生成/矢量，仓库不再提交二进制资源。
 
@@ -27,7 +27,7 @@
 
 ### 变更
 - 包名/发行名从 `ScoreConverter` 统一为 `Lilipu`（中文名「离谱」）。
-- 打包配置显式排除 pandas / matplotlib / scipy / Qt 等无用依赖，产物从 110 MB 降至约 45 MB（以实际构建为准）。
+- 打包配置显式排除 pandas / matplotlib / scipy / Qt / torch 等无用依赖；Windows 单文件产物约 142 MB（含 OpenCV、numpy、music21、Tk），已作为 Release 附件发布。
 - 启动弹窗改为引擎标签上的可点击说明，不再打断用户。
 
 ### 发布说明
