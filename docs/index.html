@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>离谱 Lilipu · 五线谱转简谱</title>
+<meta name="description" content="离谱 Lilipu：把五线谱图片或 PDF 转换成简谱文本与印刷级简谱图片的开源桌面工具，支持 Audiveris 高精度识别与 MusicXML 导出。">
+<style>
+  :root{
+    --ink:#141414; --muted:#5f6368; --line:#e6e6e6; --bg:#fbfbfa;
+    --accent:#0f766e; --accent-soft:#e7f3f1; --warn:#b45309; --warn-soft:#fef3e2;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:16px/1.75 "Noto Sans SC","PingFang SC","Microsoft YaHei",system-ui,sans-serif}
+  a{color:var(--accent)}
+  .wrap{max-width:980px;margin:0 auto;padding:0 24px}
+  header{border-bottom:1px solid var(--line);background:#fff}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:20px}
+  .logo{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;
+    background:linear-gradient(160deg,#7c3aed,#4f46e5);color:#fff;font-size:20px;font-weight:700}
+  .nav nav a{margin-left:20px;color:var(--muted);text-decoration:none;font-size:14px}
+  .nav nav a:hover{color:var(--ink)}
+  .hero{padding:64px 0 40px}
+  .hero h1{font-size:40px;line-height:1.3;margin:0 0 14px;letter-spacing:-.5px}
+  .hero p{color:var(--muted);margin:0 0 26px;max-width:640px}
+  .btns{display:flex;gap:12px;flex-wrap:wrap}
+  .btn{display:inline-block;padding:11px 22px;border-radius:8px;text-decoration:none;
+    font-size:15px;font-weight:600;border:1px solid transparent}
+  .btn.primary{background:var(--accent);color:#fff}
+  .btn.primary:hover{background:#0b5f59}
+  .btn.ghost{border-color:var(--line);background:#fff;color:var(--ink)}
+  .btn.ghost:hover{border-color:#cfcfcf}
+  .note{margin-top:16px;font-size:13px;color:var(--muted)}
+  section{padding:38px 0;border-top:1px solid var(--line)}
+  h2{font-size:24px;margin:0 0 8px}
+  h2+.lead{color:var(--muted);margin:0 0 22px;font-size:15px}
+  .demo{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px}
+  .demo img{width:100%;display:block}
+  .caption{font-size:13px;color:var(--muted);padding:8px 4px 0}
+  table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);
+    border-radius:10px;overflow:hidden;font-size:15px}
+  th,td{padding:12px 14px;text-align:left;border-bottom:1px solid var(--line)}
+  th{background:#f6f7f7;font-weight:600;font-size:14px}
+  tr:last-child td{border-bottom:0}
+  .ok{color:var(--accent);font-weight:600}
+  .no{color:#a1a1a1}
+  .callout{margin:18px 0 0;padding:14px 16px;border-radius:8px;
+    background:var(--warn-soft);border-left:3px solid var(--warn);font-size:14px;color:#7c3f11}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:6px}
+  .card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:18px}
+  .card h3{margin:0 0 8px;font-size:16px}
+  .card p{margin:0;color:var(--muted);font-size:14px}
+  pre{background:#fff;border:1px solid var(--line);border-radius:8px;padding:14px 16px;
+    overflow-x:auto;font:13px/1.7 ui-monospace,SFMono-Regular,Consolas,monospace}
+  details{background:#fff;border:1px solid var(--line);border-radius:8px;padding:12px 16px;margin-bottom:10px}
+  details summary{cursor:pointer;font-weight:600;font-size:15px}
+  details p{margin:10px 0 0;color:var(--muted);font-size:14px}
+  footer{border-top:1px solid var(--line);padding:26px 0;color:var(--muted);font-size:13px}
+  footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  @media (max-width:640px){
+    .hero h1{font-size:30px}.nav nav{display:none}section{padding:28px 0}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <div class="brand"><span class="logo">1</span> 离谱 Lilipu</div>
+    <nav>
+      <a href="#ability">能力边界</a>
+      <a href="#download">下载</a>
+      <a href="#faq">常见问题</a>
+      <a href="https://github.com/66SHUN66/staff-to-jianpu">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="hero">
+    <h1>把五线谱变成简谱</h1>
+    <p>离谱是一个开源桌面工具：导入五线谱图片或多页 PDF，输出可直接阅读的简谱文本，
+      以及带高音点、减时线、小节线的印刷级简谱图（PNG / SVG），需要时还能导出 MusicXML 继续编辑。</p>
+    <div class="btns">
+      <a class="btn primary" href="https://github.com/66SHUN66/staff-to-jianpu/releases/latest">下载 Windows 版</a>
+      <a class="btn ghost" href="https://github.com/66SHUN66/staff-to-jianpu">查看源码</a>
+    </div>
+    <p class="note">Windows 10/11 · 单文件 exe，免安装 · 也可用源码运行（Python 3.9+）</p>
+  </div>
+
+  <section>
+    <div class="demo">
+      <img src="assets/demo-jianpu.svg" alt="程序渲染输出的简谱示例：1=C 4/4，八个八分音符与一条二分音符">
+    </div>
+    <p class="caption">上面这张图就是程序真实渲染的输出，不是设计稿。</p>
+  </section>
+
+  <section id="ability">
+    <h2>先说清楚能力边界</h2>
+    <p class="lead">两种识别模式差别很大，选错了会失望，所以放在最前面。</p>
+    <table>
+      <thead>
+        <tr><th>能力</th><th>Audiveris 模式</th><th>OpenCV 音高草图模式</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>安装要求</td><td>需另外安装 Audiveris</td><td>开箱即用</td></tr>
+        <tr><td>音高</td><td class="ok">准确识谱</td><td>按纵向位置估算</td></tr>
+        <tr><td>调号 / 升降号</td><td class="ok">支持</td><td class="no">不支持</td></tr>
+        <tr><td>节奏时值 / 小节线</td><td class="ok">支持</td><td class="no">不支持</td></tr>
+        <tr><td>和弦</td><td class="ok">保留（导出 MusicXML 完整）</td><td class="no">不支持</td></tr>
+        <tr><td>MusicXML 导出</td><td class="ok">支持</td><td class="no">不支持</td></tr>
+      </tbody>
+    </table>
+    <div class="callout">
+      <strong>OpenCV 模式只给音高轮廓草图</strong>，不是完整简谱，程序里也会明确标注。
+      想要能用的结果，请安装 Audiveris（自带 Java，装完重启程序自动切换）。
+    </div>
+  </section>
+
+  <section>
+    <h2>功能</h2>
+    <div class="cards">
+      <div class="card">
+        <h3>多页 PDF 直接进</h3>
+        <p>选一个 PDF 就按页拆开、按页码排序识别，不用先手动导图。</p>
+      </div>
+      <div class="card">
+        <h3>印刷级渲染</h3>
+        <p>PNG 与 SVG 双输出，自动换行分页，高音点、减时线、增时线、小节线都按规范绘制。</p>
+      </div>
+      <div class="card">
+        <h3>可继续编辑</h3>
+        <p>一键导出 MusicXML，拖进 MuseScore / Sibelius 就能改谱、加伴奏。</p>
+      </div>
+      <div class="card">
+        <h3>小工具</h3>
+        <p>整体移调、自动修复异常时值、生成 MIDI 试听、最近 100 条历史记录。</p>
+      </div>
+      <div class="card">
+        <h3>不写死系统路径</h3>
+        <p>字体、数据目录、图标都按平台适配，Windows / macOS / Linux 都能跑源码版。</p>
+      </div>
+      <div class="card">
+        <h3>开源可核查</h3>
+        <p>MIT 协议，代码按 core / render / ui 分层，有 pytest 与 GitHub Actions。</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="download">
+    <h2>下载与运行</h2>
+    <p class="lead">推荐用打包版，不想装 Audiveris 也能先体验音高草图模式。</p>
+    <p><a class="btn ghost" href="https://github.com/66SHUN66/staff-to-jianpu/releases/latest">前往 Releases 下载 Lilipu.exe</a></p>
+    <p class="note">exe 作为 Release 附件发布，不打进仓库，避免仓库体积过大。</p>
+    <p>源码运行：</p>
+    <pre>git clone https://github.com/66SHUN66/staff-to-jianpu.git
+cd staff-to-jianpu
+python -m venv .venv &amp;&amp; .venv\Scripts\activate   # macOS/Linux: source .venv/bin/activate
+pip install -r requirements.txt
+python main.py</pre>
+  </section>
+
+  <section id="faq">
+    <h2>常见问题</h2>
+    <details>
+      <summary>为什么识别结果只有音高，没有节奏？</summary>
+      <p>说明当前跑的是 OpenCV 草图模式。装上 Audiveris 后重启程序，标题栏会显示「Audiveris 高精度识别」，那时才有调号、节奏与小节线。</p>
+    </details>
+    <details>
+      <summary>为什么没有网页版在线识别？</summary>
+      <p>识谱依赖 Java 版 Audiveris，浏览器里跑不动；做假进度条骗人没意义，所以这个页面只做介绍，识别请在桌面端进行。</p>
+    </details>
+    <details>
+      <summary>字体显示成方块怎么办？</summary>
+      <p>程序会依次尝试随包字库、系统中文字体、matplotlib 字体索引。也可以设置环境变量 <code>LILIPU_FONT</code> 指向一个 ttf/otf 文件。</p>
+    </details>
+    <details>
+      <summary>识别准不准？</summary>
+      <p>取决于原图质量：正拍、清晰、无透视畸变的扫描件效果最好；手机斜拍的照片建议先裁正。Audiveris 单页一般 10–20 秒。</p>
+    </details>
+    <details>
+      <summary>日志和历史记录存在哪？</summary>
+      <p>Windows 在 <code>%APPDATA%\Lilipu\</code>，macOS 在 <code>~/Library/Application Support/Lilipu/</code>，
+        Linux 在 <code>~/.local/share/Lilipu/</code>。旧版 <code>ScoreConverter</code> 目录的历史会在首次启动时自动迁移。</p>
+    </details>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>离谱 Lilipu · MIT License © 2026 高智顺</span>
+    <span><a href="https://github.com/66SHUN66/staff-to-jianpu">GitHub 仓库</a> ·
+      <a href="https://github.com/Audiveris/audiveris">Audiveris</a> ·
+      <a href="https://www.music21.org/">music21</a></span>
+  </div>
+</footer>
+
+</body>
+</html>
