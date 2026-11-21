@@ -2,7 +2,7 @@ name: Build Windows EXE
 
 # 触发方式：
 #   1) 推 v* 标签（正式发布）；
-#   2) 修改 CHANGELOG.md 或打包配置（发版时更新日志即可，自动建 Release）；
+#   2) 修改 CHANGELOG.md 或打包相关文件；
 #   3) 手动 workflow_dispatch。
 on:
   workflow_dispatch:
@@ -14,6 +14,7 @@ on:
       - "CHANGELOG.md"
       - "scripts/lilipu.spec"
       - "scripts/build.py"
+      - ".github/workflows/build-windows.yml"
 
 permissions:
   contents: write
@@ -42,15 +43,37 @@ jobs:
           Write-Output "version=$v" >> $env:GITHUB_OUTPUT
 
       - name: 打包
-        run: python scripts/build.py
+        id: build
+        shell: bash
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          python scripts/build.py 2>&1 | tee build.log
+
+      - name: 记录构建摘要
+        if: always()
+        shell: bash
+        run: |
+          {
+            echo "## 打包结果"
+            echo ""
+            echo "- 打包步骤结论: ${{ steps.build.outcome }}"
+            echo "- 版本号: ${{ steps.ver.outputs.version }}"
+            echo ""
+            echo '```'
+            tail -n 80 build.log 2>/dev/null || echo "（没有 build.log）"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: 确认产物
+        if: steps.build.outcome == 'success'
         shell: pwsh
         run: |
           if (-not (Test-Path dist/Lilipu.exe)) { throw "dist/Lilipu.exe 不存在，打包失败" }
           "{0:N1} MB" -f ((Get-Item dist/Lilipu.exe).Length / 1MB)
 
       - name: 上传构建产物（用于排查）
+        if: steps.build.outcome == 'success'
         uses: actions/upload-artifact@v4
         with:
           name: Lilipu-windows
@@ -58,6 +81,7 @@ jobs:
           if-no-files-found: error
 
       - name: 发布到 Release
+        if: steps.build.outcome == 'success'
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ startsWith(github.ref, 'refs/tags/') && github.ref_name || format('v{0}', steps.ver.outputs.version) }}
@@ -65,3 +89,10 @@ jobs:
           files: dist/Lilipu.exe
           generate_release_notes: true
           fail_on_unmatched_files: true
+
+      - name: 打包失败则让任务失败
+        if: steps.build.outcome != 'success'
+        shell: bash
+        run: |
+          echo "打包步骤未成功，退出码标记失败"
+          exit 1
