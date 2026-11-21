@@ -2,7 +2,7 @@ name: Build Windows EXE
 
 # 触发方式：
 #   1) 推 v* 标签（正式发布）；
-#   2) 修改 CHANGELOG.md（发新版本时同时更新日志即可，自动建 Release）；
+#   2) 修改 CHANGELOG.md 或打包配置（发版时更新日志即可，自动建 Release）；
 #   3) 手动 workflow_dispatch。
 on:
   workflow_dispatch:
@@ -12,6 +12,8 @@ on:
     branches: [main]
     paths:
       - "CHANGELOG.md"
+      - "scripts/lilipu.spec"
+      - "scripts/build.py"
 
 permissions:
   contents: write
