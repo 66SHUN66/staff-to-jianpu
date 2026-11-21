@@ -1,0 +1,37 @@
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.venv/
+venv/
+
+# ---- 打包产物 ----
+build/
+dist/
+*.spec.bak
+*.exe
+*.apk
+
+# ---- 本机历史/临时目录（不随仓库分发） ----
+旧版本/
+测试/
+图标/
+run.log
+
+# ---- 可选内置字库（体积较大，按需下载） ----
+assets/fonts/*.ttf
+assets/fonts/*.otf
+assets/fonts/*.ttc
+
+# ---- 由代码生成的二进制资源（不进仓库，构建时自动生成） ----
+assets/icon.ico
+assets/icon.png
+assets/demo-jianpu.png
+docs/assets/*.png
+
+# ---- 系统与编辑器 ----
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
