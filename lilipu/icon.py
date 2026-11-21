@@ -50,7 +50,7 @@ def render_icon(size: int = 256) -> Image.Image:
     font = get_font(int(size * 0.52), bold=True)
     text = "1"
     box = draw.textbbox((0, 0), text, font=font)
-    tw, th = box[2] - box[0], box[3] - box[1]
+    tw = box[2] - box[0]
     tx = (size - tw) / 2 - box[0]
     ty = int(size * 0.30) - box[1]
     draw.text((tx, ty), text, font=font, fill=(255, 255, 255, 255))

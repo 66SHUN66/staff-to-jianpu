@@ -5,9 +5,9 @@
     from lilipu.render import PrintJianpuRenderer, render_to_png, render_to_svg
 """
 
-from .duration import analyze_duration
-from .fonts import get_font
-from .layout import LayoutEngine
+from .duration import analyze_duration  # noqa: F401
+from .fonts import get_font  # noqa: F401
+from .layout import LayoutEngine  # noqa: F401
 from .print_renderer import PrintJianpuRenderer
 
 #: 渲染能力可用标记（供调用方做降级判断，保持向后兼容）

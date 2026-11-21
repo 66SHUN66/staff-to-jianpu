@@ -8,7 +8,6 @@
 from __future__ import annotations
 
 import os
-import sys
 import urllib.request
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

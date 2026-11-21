@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""本地打包脚本：python scripts/build.py [--onefile]
+"""本地打包脚本：python scripts/build.py
 
 仅供开发者本地出包；CI 用同一入口。
 """
@@ -7,7 +7,6 @@
 from __future__ import annotations
 
 import os
-import shutil
 import subprocess
 import sys
 
