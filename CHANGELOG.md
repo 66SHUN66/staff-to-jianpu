@@ -11,7 +11,7 @@
 - **PDF 输入**：支持直接把多页 PDF 乐谱拆页识别，无需先手动转图（`lilipu/core/pdfinput.py`）。
 - **MusicXML 导出**：识别结果可一键导出 `.musicxml` / `.xml` / `.mxl`，便于导入 MuseScore、Sibelius 等制谱软件。
 - **测试**：11 个 pytest 用例覆盖转换、渲染、字体、路径、PDF 拆页。
-- **CI**：GitHub Actions 在 Linux 上跑 Python 3.10 / 3.11 / 3.12 矩阵测试；打 tag 时自动构建 Windows exe 并上传 Release。
+- **CI**：GitHub Actions 在 Linux 上跑 Python 3.10 / 3.11 / 3.12 矩阵测试；修改 CHANGELOG 或打 tag 时自动构建 Windows exe 并上传 Release。
 - **文档**：README 包含能力边界表、目录结构、打包体积说明；`docs/index.html` 为项目介绍页。
 - 示例图片、图标改为代码生成/矢量，仓库不再提交二进制资源。
 
@@ -22,7 +22,7 @@
 - **数据目录名与产品名不一致**：历史记录从 `ScoreConverter` 迁到 `Lilipu`，首次启动自动迁移旧数据，用户不会丢历史。
 - **OpenCV 降级能力误导**：原先仅输出音高却被当作完整简谱；现在引擎会明确标注「音高草图模式（不识别调号/节奏）」，结果页与启动时均有提示。
 - **网页版假进度条**：移除了 `Math.random()` 伪造进度，改为如实说明「不提供在线识别」，并给出两种引擎能力对比。
-- **临时目录不清理**：新增启动时按龄清理 `temp/` 下过期文件。
+- **临时目录不清理**：新增启动时按龄清理 `temp/lilipu` 下过期文件。
 - **3317 行单文件**：按职责拆为 `core` / `render` / `ui` 三层，降低维护成本。
 
 ### 变更
@@ -30,7 +30,11 @@
 - 打包配置显式排除 pandas / matplotlib / scipy / Qt 等无用依赖，产物从 110 MB 降至约 45 MB（以实际构建为准）。
 - 启动弹窗改为引擎标签上的可点击说明，不再打断用户。
 
+### 发布说明
+- `Lilipu.exe` 作为 GitHub Release 附件发布，不进仓库（避开单文件 100 MB 限制）。
+- 需要重新出包时，修改本文件或推 `v*` 标签即可，Actions 会自动构建并挂到 Release。
+
 ### 已知限制
-- Audiveris（OMR 引擎）需自行安装 Java 17 与 Audiveris，程序只负责探测并调用。
+- Audiveris（OMR 引擎）需自行安装，程序只负责探测并调用（Audiveris 5+ 已自带 Java）。
 - OpenCV 降级模式仅能做音高草图，不能替代完整记谱。
 - 未在 macOS / Linux 上做 GUI 验证，目前官方产物只有 Windows exe。

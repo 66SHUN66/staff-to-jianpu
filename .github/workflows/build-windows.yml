@@ -1,10 +1,17 @@
 name: Build Windows EXE
 
+# 触发方式：
+#   1) 推 v* 标签（正式发布）；
+#   2) 修改 CHANGELOG.md（发新版本时同时更新日志即可，自动建 Release）；
+#   3) 手动 workflow_dispatch。
 on:
   workflow_dispatch:
   push:
     tags:
       - "v*"
+    branches: [main]
+    paths:
+      - "CHANGELOG.md"
 
 permissions:
   contents: write
@@ -12,7 +19,6 @@ permissions:
 jobs:
   build:
     runs-on: windows-latest
-
     steps:
       - uses: actions/checkout@v4
 
@@ -26,19 +32,34 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt pyinstaller
 
+      - name: 读取版本号
+        id: ver
+        shell: pwsh
+        run: |
+          $v = (Select-String -Path lilipu/__init__.py -Pattern '__version__\s*=\s*"([^"]+)"').Matches[0].Groups[1].Value
+          Write-Output "version=$v" >> $env:GITHUB_OUTPUT
+
       - name: 打包
         run: python scripts/build.py
 
-      - name: 上传构建产物
+      - name: 确认产物
+        shell: pwsh
+        run: |
+          if (-not (Test-Path dist/Lilipu.exe)) { throw "dist/Lilipu.exe 不存在，打包失败" }
+          "{0:N1} MB" -f ((Get-Item dist/Lilipu.exe).Length / 1MB)
+
+      - name: 上传构建产物（用于排查）
         uses: actions/upload-artifact@v4
         with:
           name: Lilipu-windows
           path: dist/Lilipu.exe
           if-no-files-found: error
 
-      - name: 发布到 Release（仅打 tag 时）
-        if: startsWith(github.ref, 'refs/tags/')
+      - name: 发布到 Release
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ startsWith(github.ref, 'refs/tags/') && github.ref_name || format('v{0}', steps.ver.outputs.version) }}
+          name: 离谱 Lilipu ${{ steps.ver.outputs.version }}
           files: dist/Lilipu.exe
           generate_release_notes: true
+          fail_on_unmatched_files: true
