@@ -8,6 +8,7 @@
 from __future__ import annotations
 
 import os
+import sys
 import urllib.request
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -40,6 +41,11 @@ def shutil_copy(src, dst) -> None:
 
 
 def main() -> int:
+    for stream_name in ("stdout", "stderr"):
+        try:
+            getattr(sys, stream_name).reconfigure(encoding="utf-8", errors="replace")
+        except Exception:
+            pass
     os.makedirs(DEST_DIR, exist_ok=True)
     dest = os.path.join(DEST_DIR, TARGET)
     if os.path.exists(dest) and os.path.getsize(dest) > 100 * 1024:
