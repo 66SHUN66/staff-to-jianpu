@@ -25,6 +25,16 @@ Python 3.9+ · MIT License · Windows / macOS / Linux · 基于 [Audiveris](http
 
 **OpenCV 模式只给音高轮廓草图，不是完整简谱。** 想要可用结果请安装 Audiveris，程序会自动切换到高精度模式。
 
+![输入到输出：乐谱照片 / 扫描 PDF / MusicXML → 简谱，右侧标注唱名、高音点、减时线、增时线的含义](docs/assets/quickstart-compare.svg)
+
+## 快速上手
+
+1. 到 [Releases](../../releases) 下载 `Lilipu.exe`，双击运行（想要完整识谱先装 [Audiveris](https://github.com/Audiveris/audiveris/releases)，自带 Java）；
+2. 把乐谱照片、扫描 PDF 或 MusicXML 拖进窗口，选引擎后点「开始转换」；
+3. 预览无误后导出 PNG / SVG / TXT；要接着改谱就导出 MusicXML，拖进 MuseScore 即可。
+
+上面那张图就是程序的真实输出：左边是排好的简谱，右边标了每个符号的含义。
+
 ## 功能
 
 - 批量导入图片（JPG / PNG / BMP / TIFF），支持**多页 PDF 自动拆页**
@@ -112,7 +122,7 @@ python scripts/build.py        # 产物在 dist/Lilipu.exe
 - `scripts/lilipu.spec` 排除了 pandas / scipy / PyQt 等用不到的模块；
 - 若打包后启动报缺模块，把报错模块名从 spec 的 `excludes` 里删掉再打包即可。
 
-也支持在 GitHub Actions 里构建：`.github/workflows/build-windows.yml` 可在 push tag 时自动产出 exe 并挂到 Release。
+也支持在 GitHub Actions 里构建：`.github/workflows/build-windows.yml` 在推 `v*` 标签、修改 CHANGELOG 或打包配置时自动产出 exe 并挂到 Release。
 
 ## 测试
 
